@@ -4,10 +4,9 @@
 //	> pttb -u Path\to\.exe\or\.lnk\to\UnPinFromTaskBar
 //	> pttb -r (to refresh the taskbar after modifying HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Taskband)
 
-// #include <windows.h>
+#include <windows.h>
 #include <Shldisp.h>
 #include <stdint.h>
-// #include <stdio.h>
 
 // --------------------------- Variables Definition --------------------------- //
 #define NB_ARG				  2
@@ -57,13 +56,12 @@ int access(const char* path, int mode);											// https://docs.microsoft.com/
 int sprintf(char* buffer, const char* format, ...);								// https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/sprintf-sprintf-l-swprintf-swprintf-l-swprintf-l?view=msvc-160
 
 // ----------------------------- Global Variables ----------------------------- //
-void* __stdcall consOut_vp;
-// printf("\n FileNotFound: %s", argPath_ca);
-// ExitProcess(0);
+//void* __stdcall consOut_vp;
+HANDLE consOut_vp;
 
 // --------------------------- entry point function --------------------------- //
 void pttb() {
-	consOut_vp = GetStdHandle(STD_OUTPUT_HANDLE);
+    consOut_vp = GetStdHandle(STD_OUTPUT_HANDLE);
 // Get arguments from command line
 	char* args_cpa[NB_ARG+1] = {NULL};											// 1st "argument" isnt really one: it's this program path
 	char* cmdLine_cp = GetCommandLineA();
@@ -344,9 +342,8 @@ void CommandLineToArgvA(char* cmdLine_cp, char** args_cpa) {
 }
 
 // --------------------------- "Write to Console A" --------------------------- //
-// Note: Saves >20KB compared to printf and <stdio.h>
 void WriteToConsoleA(char* msg_cp) {
-	WriteConsoleA(consOut_vp, msg_cp, strlen(msg_cp), NULL, NULL);
+    WriteConsoleA(consOut_vp, msg_cp, strlen(msg_cp), NULL, NULL);
 }
 
 // ------------------- "Write Integer as Hex to Console A" -------------------- //
